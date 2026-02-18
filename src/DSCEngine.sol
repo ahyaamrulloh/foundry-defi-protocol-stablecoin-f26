@@ -239,8 +239,6 @@ contract DSCEngine {
         _revertHealthFactorIsBroken(msg.sender);
     }
 
-    function getHealthFactor() external view {}
-
     //////////////////////////////////////
     // Private & Internal View Function //
     //////////////////////////////////////
@@ -358,4 +356,8 @@ contract DSCEngine {
         (totalDscMinted, collateralValueInUsd) = _getAccountInformation(user);
         return (totalDscMinted, collateralValueInUsd);
     }
+
+     function getHealthFactor(address user) external view returns (uint256) {
+        return _healthFactor(user);
+     }
 }
