@@ -1,67 +1,63 @@
 // SPDX-License-Identifier: MIT
-
-// This is considered an Exogenous, Decentralized, Anchored (pegged), Crypto Collateralized low volitility coin
-
-// Layout of Contract:
-// version
-// imports
-// interfaces, libraries, contracts
-// errors
-// Type declarations
-// State variables
-// Events
-// Modifiers
-// Functions
-
-// Layout of Functions:
-// constructor
-// receive function (if exists)
-// fallback function (if exists)
-// external
-// public
-// internal
-// private
-// view & pure functions
-
 pragma solidity ^0.8.30;
 
 import {ERC20Burnable, ERC20} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
- * @title DecentralizedStableCoin.
+ * @title DecentralizedStableCoin
  * @author Ahya Amrullah
  * Collateral: Exogenous (ETH & BTC)
  * Minting: Algorithmic
- * Relative Stability: Pagged to USD
+ * Relative Stability: Pegged to USD
  *
- * Ini adalah kontrak yang dimaksudkan untuk dimiliki oleh DSCEngine. Ini adalah token ERC20 yang dapat dicetak dan dibakar oleh kontrak pintar DSCEngine.
+ * Kontrak ini dimiliki oleh DSCEngine. Merupakan ERC20 token yang
+ * hanya bisa di-mint dan di-burn oleh DSCEngine.
  */
-
 contract DecentralizedStableCoin is ERC20Burnable, Ownable {
+    // =========================================
+    // Errors
+    // =========================================
     error DecentralizedStableCoin__MustBeMoreThanZero();
     error DecentralizedStableCoin__BurnAmountExceedsBalance();
     error DecentralizedStableCoin__NotZeroAddress();
 
-    constructor() ERC20("DecentralizedStableCoin", "DSC") Ownable(0xf07FF152C8840b53fE1f0FCFD7c5B712c721D623) {}
+    // =========================================
+    // Constructor
+    // =========================================
 
+    constructor() ERC20("DecentralizedStableCoin", "DSC") Ownable(msg.sender) {}
+
+    // =========================================
+    // External / Public Functions
+    // =========================================
+
+    /**
+     * @notice Burn sejumlah DSC token
+     * @param _amount Jumlah token yang akan dibakar
+     */
     function burn(uint256 _amount) public override onlyOwner {
-        uint256 balance = balanceOf(msg.sender);
-        if (balance <= 0) {
+        if (_amount == 0) {
             revert DecentralizedStableCoin__MustBeMoreThanZero();
         }
-        if (balance < _amount) {
+        if (balanceOf(msg.sender) < _amount) {
             revert DecentralizedStableCoin__BurnAmountExceedsBalance();
         }
         super.burn(_amount);
     }
 
+    /**
+     * @notice Mint sejumlah DSC token ke address tertentu
+     * @param _to Address penerima token
+     * @param _amount Jumlah token yang akan dicetak
+     * @return bool true jika berhasil
+     */
     function mint(address _to, uint256 _amount) external onlyOwner returns (bool) {
         if (_to == address(0)) {
             revert DecentralizedStableCoin__NotZeroAddress();
         }
-        if (_amount <= 0) {
-            revert DecentralizedStableCoin__BurnAmountExceedsBalance();
+        if (_amount == 0) {
+            revert DecentralizedStableCoin__MustBeMoreThanZero();
         }
         _mint(_to, _amount);
         return true;
