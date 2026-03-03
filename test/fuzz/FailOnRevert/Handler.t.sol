@@ -129,9 +129,11 @@ contract Handler is Test {
     }
 
     // This breaks our invariant test suite!!!!
-    // function updateCollateralPrice(uint96 newPrice) public {
-    //     int256 intNewPrice = int256(uint256(newPrice));
-    //     wethUsdPriceFeed.updateAnswer(intNewPrice);
+    // function updateCollateralPrice(uint96 newPrice, uint256 collateralSeed) public {
+    //     int256 intNewPrice = int256(bound(uint256(newPrice), 1000e8, 10000e8));
+    //     ERC20Mock collateral = _getCollateralFromSeed(collateralSeed);
+    //     MockV3Aggregator priceFeed = MockV3Aggregator(engine.getTokenPriceFeed(address(collateral)));
+    //     priceFeed.updateAnswer(intNewPrice);
     // }
 
     function _getCollateralFromSeed(uint256 collateralSeed) private view returns (ERC20Mock) {
