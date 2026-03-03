@@ -99,6 +99,13 @@ contract DSCEngineTest is StdCheats, Test {
         assertEq(expectedWeth, actualWeth);
     }
 
+    function testRevertsIfPriceIsZero() public {
+        int256 ethUsdPriceFeed = 0;
+        MockV3Aggregator(wethUsdPriceFeed).updateAnswer(ethUsdPriceFeed);
+        vm.expectRevert(DSCEngine.DSCEngine__StalePrice.selector);
+        engine.getUsdValue(weth, amountCollateral);
+    }
+
     /////////////////////////////
     // depositCollateral Tests //
     /////////////////////////////
@@ -571,5 +578,14 @@ contract DSCEngineTest is StdCheats, Test {
         uint256 expectedPrecision = 100;
         uint256 actualPrecision = engine.getLiquidationPrecision();
         assertEq(expectedPrecision, actualPrecision);
+    }
+
+    function testGetCollateralValueInUsd() public depositCollateralAndMintDsc {
+        vm.startPrank(user);
+        uint256 collateralValueUsd = engine.getAccountCollateralValue(user);
+        (uint256 totalDscMinted, uint256 collateralValueInUsd) = engine.getAccountInformation(user);
+        assertEq(collateralValueUsd, collateralValueInUsd);
+        assertEq(totalDscMinted, amountToMint);
+        vm.stopPrank();
     }
 }
