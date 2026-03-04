@@ -6,7 +6,7 @@ import {Test} from "forge-std/Test.sol";
 import {StdCheats} from "forge-std/StdCheats.sol";
 import {OracleLib, AggregatorV3Interface} from "src/libraries/OracleLib.sol";
 
-contract OracleLibTest is Test {
+contract OracleLibTest is StdCheats, Test {
     using OracleLib for AggregatorV3Interface;
 
     MockV3Aggregator aggregator;

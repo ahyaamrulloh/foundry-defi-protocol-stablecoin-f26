@@ -2,7 +2,7 @@
 pragma solidity ^0.8.30;
 // Handler akan memperketat cara kita memanggil fungsi.
 
-import {Test, console} from "forge-std/Test.sol";
+import {Test} from "forge-std/Test.sol";
 import {DSCEngine} from "src/DSCEngine.sol";
 import {DecentralizedStableCoin} from "src/DecentralizedStableCoin.sol";
 import {ERC20Mock} from "@openzeppelin/contracts/mocks/token/ERC20Mock.sol";
@@ -17,7 +17,7 @@ contract Handler is Test {
 
     address[] public userWithCollateralDeposited;
     uint256 public timesMintIsCalled;
-    uint96 MAX_DEPOSIT_SIZE = type(uint96).max;
+    uint96 public constant MAX_DEPOSIT_SIZE = type(uint96).max;
 
     constructor(DSCEngine _engine, DecentralizedStableCoin _dsc) {
         engine = _engine;

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.30;
+pragma solidity ^0.8.19;
 
 import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
@@ -36,7 +36,7 @@ library OracleLib {
         return (roundId, answer, startedAt, updatedAt, answeredInRound);
     }
 
-    function getTimeout(AggregatorV3Interface) public pure returns(uint256) {
+    function getTimeout(AggregatorV3Interface) public pure returns (uint256) {
         return TIMEOUT;
     }
 }

@@ -29,7 +29,7 @@ contract ContinueOnRevertInvariants is StdInvariant, Test {
     function setUp() public {
         DeployDSC deployer = new DeployDSC();
         (dsc, engine, helperConfig) = deployer.run();
-        (,, weth, wbtc,) = helperConfig.activeNetworkConfig();
+        (,, weth, wbtc) = helperConfig.activeNetworkConfig();
         handler = new ContinueOnRevertHandler(engine, dsc);
         targetContract(address(handler));
     }

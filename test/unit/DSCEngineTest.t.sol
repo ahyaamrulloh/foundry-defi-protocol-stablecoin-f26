@@ -42,7 +42,7 @@ contract DSCEngineTest is StdCheats, Test {
     function setUp() public {
         deployer = new DeployDSC();
         (dsc, engine, config) = deployer.run();
-        (wethUsdPriceFeed, wbtcUsdPriceFeed, weth, wbtc,) = config.activeNetworkConfig();
+        (wethUsdPriceFeed, wbtcUsdPriceFeed, weth, wbtc) = config.activeNetworkConfig();
         ERC20Mock(weth).mint(user, STARTING_USER_BALANCE);
     }
 
@@ -485,7 +485,7 @@ contract DSCEngineTest is StdCheats, Test {
                 / engine.getLiquidationPrecision());
         uint256 hardCodeExpected = 6_111_111_111_111_111_110;
         assertEq(liquidatorWethBalance, hardCodeExpected);
-        assertEq(liquidatorWethBalance, expectedWeth);   
+        assertEq(liquidatorWethBalance, expectedWeth);
     }
 
     function testUserHasSomeEthAfterLiquidation() public liquidated {
@@ -493,7 +493,7 @@ contract DSCEngineTest is StdCheats, Test {
             + (engine.getTokenAmountFromUsd(weth, amountToMint)
                 * engine.getLiquidationBonus()
                 / engine.getLiquidationPrecision());
-        
+
         uint256 usdAmountLiquidated = engine.getUsdValue(weth, amountLiquidated);
         uint256 epectedUserCollateralValueInUsd = engine.getUsdValue(weth, amountCollateral) - (usdAmountLiquidated);
         (, uint256 userCollateralValueInUsd) = engine.getAccountInformation(user);

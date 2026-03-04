@@ -433,15 +433,15 @@ contract DSCEngine is ReentrancyGuard {
         return LIQUIDATION_BONUS;
     }
 
-    function getDsc() external view returns(address) {
+    function getDsc() external view returns (address) {
         return address(I_DSC);
     }
 
-    function getCollateralTokens() external view returns(address[] memory) {
+    function getCollateralTokens() external view returns (address[] memory) {
         return sTokenCollateral;
     }
 
-    function getTokenPriceFeed(address token) external view returns(address) {
+    function getTokenPriceFeed(address token) external view returns (address) {
         return sPriceFeed[token];
     }
 }

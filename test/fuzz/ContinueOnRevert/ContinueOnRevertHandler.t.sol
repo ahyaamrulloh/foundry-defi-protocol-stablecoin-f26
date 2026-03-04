@@ -76,7 +76,13 @@ contract ContinueOnRevertHandler is Test {
     ////////////////
     // Aggregator //
     ////////////////
-    function updateCollateralPrice(int128, /* newPrice */ uint256 collateralSeed) public {
+    function updateCollateralPrice(
+        int128,
+        /* newPrice */
+        uint256 collateralSeed
+    )
+        public
+    {
         // int256 newIntPrice = int256(uint256(newPrice));
         int256 newPrice = 1000;
         ERC20Mock collateral = _getCollateralFromSeed(collateralSeed);

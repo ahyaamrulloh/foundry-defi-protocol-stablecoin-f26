@@ -12,7 +12,6 @@ contract HelperConfig is Script {
         address wbtcUsdPriceFeed;
         address weth;
         address wbtc;
-        uint256 deployerKey;
     }
 
     uint8 public constant DECIMALS = 8;
@@ -30,13 +29,12 @@ contract HelperConfig is Script {
         }
     }
 
-    function getSepoliaEthConfig() public view returns (NetworkConfig memory) {
+    function getSepoliaEthConfig() public pure returns (NetworkConfig memory) {
         return NetworkConfig({
             wethUsdPriceFeed: 0x694AA1769357215DE4FAC081bf1f309aDC325306,
             wbtcUsdPriceFeed: 0x1b44F3514812d835EB1BDB0acB33d3fA3351Ee43,
             weth: 0xdd13E55209Fd76AfE204dBda4007C227904f0a81,
-            wbtc: 0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063,
-            deployerKey: vm.envUint("PRIVATE_KEY")
+            wbtc: 0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063
         });
     }
 
@@ -57,8 +55,7 @@ contract HelperConfig is Script {
             wethUsdPriceFeed: address(ethUsdPriceFeed),
             wbtcUsdPriceFeed: address(btcUsdPriceFeed),
             weth: address(weth),
-            wbtc: address(wbtc),
-            deployerKey: ANVIL_PRIVATE_KEY
+            wbtc: address(wbtc)
         });
     }
 }
